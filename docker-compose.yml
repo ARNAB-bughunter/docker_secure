@@ -1,0 +1,41 @@
+services:
+  date_parser_base:
+      restart: always
+      container_name: date_parser_base
+      build:
+        context: .
+        dockerfile: Dockerfile_base
+      image: date_parser_ubi9_5_base:latest
+
+  date_parser:
+    environment:
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - xlrt.env
+    restart: always
+    container_name: date_parser
+    build:
+      context: .
+      dockerfile: Dockerfile_main
+    image: date_parser_ubi9-5:latest
+    expose:
+       - 8035
+    ports:
+      - 8035:8035
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 1g
+        reservations:
+          cpus: '0.25'
+          memory: 1g
+    depends_on:
+      - date_parser_base
+
+# networks:
+#   default:
+#     external: true
+#     name: xlrt-cloud-network
+
+

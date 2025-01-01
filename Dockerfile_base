@@ -1,0 +1,21 @@
+FROM redhat/ubi9-minimal:9.5-1731604394
+
+
+RUN microdnf update -y && \
+    microdnf install -y python3.11 python3.11-pip python3.11-devel gcc gcc-c++ && \
+    microdnf clean all
+
+    
+COPY requirements.txt requirements.txt
+
+
+RUN python3.11 -m venv my_venv && \
+    source my_venv/bin/activate && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt --default-timeout=300
+
+
+ENV VIRTUAL_ENV=/my_venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+CMD [ "sleep", "infinity" ]
