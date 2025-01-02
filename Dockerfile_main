@@ -10,7 +10,7 @@ RUN mkdir date_parser
 WORKDIR /date_parser
 ADD . /date_parser
 
-RUN python3.11 compiler.py build_ext --inplace 
+RUN /my_venv/bin/python3.11 compiler.py build_ext --inplace 
 
 
 # Change ownership of the directory to the non-root user
@@ -20,4 +20,4 @@ RUN chown -R appuser:appuser /date_parser
 USER appuser
 
 
-CMD [ "gunicorn", "app:app", "-b", "0.0.0.0:8035", "-k" ,"gevent", "-w", "5", "--timeout", "5000", "--graceful-timeout", "4890" ]
+CMD [ "/my_venv/bin/python3.11", "-m", "gunicorn", "app:app", "-b", "0.0.0.0:8035", "-k" ,"gevent", "-w", "5", "--timeout", "5000", "--graceful-timeout", "4890" ]

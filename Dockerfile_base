@@ -15,7 +15,4 @@ RUN python3.11 -m venv my_venv && \
     pip install -r requirements.txt --default-timeout=300
 
 
-ENV VIRTUAL_ENV=/my_venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
 CMD [ "sleep", "infinity" ]
